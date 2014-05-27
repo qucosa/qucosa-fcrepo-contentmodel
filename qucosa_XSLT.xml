@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foxml:digitalObject VERSION="1.1" PID="qucosa:XSLT"
+xmlns:foxml="info:fedora/fedora-system:def/foxml#"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Qucosa specific XSLT stylesheets"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="fedoraAdmin"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="2014-05-27T13:05:47.610Z"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE="2014-05-27T17:15:33.071Z"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="DC" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DC1.0" LABEL="Dublin Core Record for this object" CREATED="2014-05-27T13:05:47.610Z" MIMETYPE="text/xml" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" SIZE="396">
+            <foxml:xmlContent>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Qucosa specific XSLT stylesheets</dc:title>
+                    <dc:identifier>qucosa:XSLT</dc:identifier>
+                </oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="QUCOSAv1-XML2JSON" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="QUCOSAv1-XML2JSON.0" LABEL="Stylesheet transforming Qucosa v1 XML to JSON" CREATED="2014-05-27T17:15:33.071Z" MIMETYPE="text/xsl" SIZE="5345">
+            <foxml:xmlContent>
+                <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+                    <xsl:output encoding="UTF-8" indent="no" media-type="application/json" method="text" omit-xml-declaration="yes"></xsl:output>
+                    <xsl:strip-space elements="*"></xsl:strip-space>
+                    <xsl:variable name="d">0123456789</xsl:variable>
+                    <xsl:template match="text()[preceding-sibling::node() or following-sibling::node()]"></xsl:template>
+                    <xsl:template match="text()">
+                        <xsl:call-template name="escape-string">
+                            <xsl:with-param name="s" select="."></xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:template>
+                    <xsl:template name="escape-string">
+                        <xsl:param name="s"></xsl:param>
+                        <xsl:text>&quot;</xsl:text>
+                        <xsl:call-template name="escape-bs-string">
+                            <xsl:with-param name="s" select="$s"></xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:text>&quot;</xsl:text>
+                    </xsl:template>
+                    <xsl:template name="escape-bs-string">
+                        <xsl:param name="s"></xsl:param>
+                        <xsl:choose>
+                            <xsl:when test="contains($s,&apos;\&apos;)">
+                                <xsl:call-template name="escape-quot-string">
+                                    <xsl:with-param name="s" select="concat(substring-before($s,&apos;\&apos;),&apos;\\&apos;)"></xsl:with-param>
+                                </xsl:call-template>
+                                <xsl:call-template name="escape-bs-string">
+                                    <xsl:with-param name="s" select="substring-after($s,&apos;\&apos;)"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="escape-quot-string">
+                                    <xsl:with-param name="s" select="$s"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:template>
+                    <xsl:template name="escape-quot-string">
+                        <xsl:param name="s"></xsl:param>
+                        <xsl:choose>
+                            <xsl:when test="contains($s,&apos;&quot;&apos;)">
+                                <xsl:call-template name="encode-string">
+                                    <xsl:with-param name="s" select="concat(substring-before($s,&apos;&quot;&apos;),&apos;\&quot;&apos;)"></xsl:with-param>
+                                </xsl:call-template>
+                                <xsl:call-template name="escape-quot-string">
+                                    <xsl:with-param name="s" select="substring-after($s,&apos;&quot;&apos;)"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="encode-string">
+                                    <xsl:with-param name="s" select="$s"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:template>
+                    <xsl:template name="encode-string">
+                        <xsl:param name="s"></xsl:param>
+                        <xsl:choose>
+                            <xsl:when test="contains($s,&apos; &apos;)">
+                                <xsl:call-template name="encode-string">
+                                    <xsl:with-param name="s" select="concat(substring-before($s,&apos; &apos;),&apos;\t&apos;,substring-after($s,&apos; &apos;))"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:when test="contains($s,&apos; &apos;)">
+                                <xsl:call-template name="encode-string">
+                                    <xsl:with-param name="s" select="concat(substring-before($s,&apos; &apos;),&apos;\n&apos;,substring-after($s,&apos; &apos;))"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:when test="contains($s,&apos; &apos;)">
+                                <xsl:call-template name="encode-string">
+                                    <xsl:with-param name="s" select="concat(substring-before($s,&apos; &apos;),&apos;\r&apos;,substring-after($s,&apos; &apos;))"></xsl:with-param>
+                                </xsl:call-template>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$s"></xsl:value-of>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:template>
+                    <xsl:template match="text()[not(string(number())=&apos;NaN&apos;)]">
+                        <xsl:value-of select="number(.)"></xsl:value-of>
+                    </xsl:template>
+                    <xsl:template match="text()[translate(.,&apos;TRUE&apos;,&apos;true&apos;)=&apos;true&apos;]">true</xsl:template>
+                    <xsl:template match="text()[translate(.,&apos;FALSE&apos;,&apos;false&apos;)=&apos;false&apos;]">false</xsl:template>
+                    <xsl:template match="*[count(child::node())=0]">
+                        <xsl:call-template name="escape-string">
+                            <xsl:with-param name="s" select="local-name()"></xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:text>:null</xsl:text>
+                        <xsl:if test="following-sibling::*">,</xsl:if>
+                    </xsl:template>
+                    <xsl:template match="*" name="base">
+                        <xsl:if test="not(preceding-sibling::*)">{</xsl:if>
+                        <xsl:call-template name="escape-string">
+                            <xsl:with-param name="s" select="name()"></xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:text>:</xsl:text>
+                        <xsl:apply-templates select="child::node()"></xsl:apply-templates>
+                        <xsl:if test="following-sibling::*">,</xsl:if>
+                        <xsl:if test="not(following-sibling::*)">}</xsl:if>
+                    </xsl:template>
+                    <xsl:template match="*[count(../*[name(../*)=name(.)])=count(../*) and count(../*)&gt;1]">
+                        <xsl:if test="not(preceding-sibling::*)">[</xsl:if>
+                        <xsl:choose>
+                            <xsl:when test="not(child::node())">
+                                <xsl:text>null</xsl:text>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates select="child::node()"></xsl:apply-templates>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:if test="following-sibling::*">,</xsl:if>
+                        <xsl:if test="not(following-sibling::*)">]</xsl:if>
+                    </xsl:template>
+                    <xsl:template match="/">
+                        <xsl:apply-templates select="node()"></xsl:apply-templates>
+                    </xsl:template>
+                </xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>
