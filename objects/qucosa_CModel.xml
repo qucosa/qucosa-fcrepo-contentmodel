@@ -42,7 +42,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <dsTypeModel ID="RELS-EXT">
                         <form MIME="application/rdf+xml"></form>
                     </dsTypeModel>
-                    <dsTypeModel ID="QUCOSA-XML">
+                    <dsTypeModel ID="QUCOSA-XML" optional="true">
                         <form MIME="text/xml"></form>
                     </dsTypeModel>
                     <dsTypeModel ID="POLICY" optional="true">
