@@ -37,7 +37,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
         <foxml:datastreamVersion ID="METHODMAP.0" LABEL="Methods for this service deployment" CREATED="2014-05-27T14:04:53.489Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDepMethodMap-1.1" SIZE="656">
             <foxml:xmlContent>
                 <fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="Fedora MethodMap for Dissemmination">
-                    <fmm:Method operationName="getIndexDocument" wsdlMsgName="getIndexDocumentRequest" wsdlMsgOuput="jsonResponse">
+                    <fmm:Method operationName="getIndexDocument" wsdlMsgName="getIndexDocumentRequest" wsdlMsgOuput="json_response">
                         <fmm:UserInputParm defaultValue="no" parmName="clear_xslt_cache" passBy="VALUE" required="false">
                             <fmm:ValidParmValues>
                                 <fmm:ValidParm value="yes"></fmm:ValidParm>
@@ -45,6 +45,9 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </fmm:ValidParmValues>
                         </fmm:UserInputParm>
                         <fmm:DatastreamInputParm parmName="QUCOSAv1-XML2JSON" passBy="URL_REF"></fmm:DatastreamInputParm>
+                    </fmm:Method>
+                    <fmm:Method operationName="getMETSDissemination" wsdlMsgName="getMETSDisseminationRequest" wsdlMsgOutput="mets_response">
+                        <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
                 </fmm:MethodMap>
             </foxml:xmlContent>
@@ -69,11 +72,14 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
         </foxml:datastreamVersion>
     </foxml:datastream>
     <foxml:datastream ID="WSDL" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-        <foxml:datastreamVersion ID="WSDL.0" LABEL="WSDL Bindings" CREATED="2014-05-27T17:14:32.758Z" MIMETYPE="text/xml" FORMAT_URI="http://schemas.xmlsoap.org/wsdl/" SIZE="2308">
+        <foxml:datastreamVersion ID="WSDL.0" LABEL="WSDL Bindings" CREATED="2014-05-27T17:14:32.758Z" MIMETYPE="text/xml" FORMAT_URI="http://schemas.xmlsoap.org/wsdl/">
             <foxml:xmlContent>
-                <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap" xmlns:soapenc="http://schemas.xmlsoap.org/wsdl/soap/encoding" xmlns:this="saxon" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FedoraLocalSaxonService" targetNamespace="saxon">
+                <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap" xmlns:soapenc="http://schemas.xmlsoap.org/wsdl/soap/encoding" xmlns:this="service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="FedoraLocalService" targetNamespace="service">
                     <wsdl:types>
-                        <xsd:schema targetNamespace="saxon">
+                        <xsd:schema targetNamespace="service">
+                            <xsd:simpleType name="InputType">
+                                <xsd:restriction base="xsd:string"></xsd:restriction>
+                            </xsd:simpleType>
                             <xsd:simpleType name="URLType">
                                 <xsd:restriction base="xsd:string"></xsd:restriction>
                             </xsd:simpleType>
@@ -90,21 +96,31 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <wsdl:part name="QUCOSAv1-XML2JSON" type="this:URLType"></wsdl:part>
                         <wsdl:part name="CLEAR_CACHE" type="this:BOOLType"></wsdl:part>
                     </wsdl:message>
+                    <wsdl:message name="getMETSDisseminationRequest">
+                        <wsdl:part name="PID" type="this:InputType"></wsdl:part>
+                    </wsdl:message>
                     <wsdl:message name="json_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
-                    <wsdl:portType name="FedoraSaxonPortType">
+                    <wsdl:message name="mets_response">
+                        <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
+                    </wsdl:message>
+                    <wsdl:portType name="FedoraLocalPortType">
                         <wsdl:operation name="getIndexDocument">
                             <wsdl:input message="this:getIndexDocumentRequest"></wsdl:input>
                             <wsdl:output message="this:json_response"></wsdl:output>
                         </wsdl:operation>
+                        <wsdl:operation name="getMETSDissemination">
+                            <wsdl:input message="this:getMETSDisseminationRequest"></wsdl:input>
+                            <wsdl:output message="this:mets_response"></wsdl:output>
+                        </wsdl:operation>
                     </wsdl:portType>
-                    <wsdl:service name="FedoraSaxon">
-                        <wsdl:port binding="this:FedoraSaxon_http" name="FedoraSaxon_port">
+                    <wsdl:service name="FedoraLocalServices">
+                        <wsdl:port binding="this:FedoraLocal_http" name="FedoraLocal_port">
                             <http:address location="http://local.fedora.server/"></http:address>
                         </wsdl:port>
                     </wsdl:service>
-                    <wsdl:binding name="FedoraSaxon_http" type="this:FedoraSaxonPortType">
+                    <wsdl:binding name="FedoraLocal_http" type="this:FedoraLocalPortType">
                         <http:binding verb="GET"></http:binding>
                         <wsdl:operation name="getIndexDocument">
                             <http:operation location="saxon/SaxonServlet?source=(QUCOSA-XML)&amp;style=(QUCOSAv1-XML2JSON)&amp;clear-stylesheet-cache=(CLEAR_CACHE)"></http:operation>
@@ -113,6 +129,15 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </wsdl:input>
                             <wsdl:output>
                                 <mime:content type="application/json"></mime:content>
+                            </wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="getMETSDissemination">
+                            <http:operation location="dissemination/mets?pid=(PID)"></http:operation>
+                            <wsdl:input>
+                                <http:urlReplacement></http:urlReplacement>
+                            </wsdl:input>
+                            <wsdl:output>
+                                <mime:content type="application/mets+xml"></mime:content>
                             </wsdl:output>
                         </wsdl:operation>
                     </wsdl:binding>

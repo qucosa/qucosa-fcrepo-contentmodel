@@ -43,6 +43,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </fmm:ValidParmValues>
                         </fmm:UserInputParm>
                     </fmm:Method>
+                    <fmm:Method operationName="getMETSDissemination"/>
                 </fmm:MethodMap>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
