@@ -45,6 +45,9 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <dsTypeModel ID="QUCOSA-XML" optional="true">
                         <form MIME="text/xml"></form>
                     </dsTypeModel>
+                    <dsTypeModel ID="SLUB-INFO" optional="true">
+                        <form MIME="application/vnd.slub-info+xml"></form>
+                    </dsTypeModel>
                     <dsTypeModel ID="MODS">
                         <form MIME="application/mods+xml"></form>
                     </dsTypeModel>
