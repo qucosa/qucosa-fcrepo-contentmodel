@@ -44,7 +44,8 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                                 <fmm:ValidParm value="no"></fmm:ValidParm>
                             </fmm:ValidParmValues>
                         </fmm:UserInputParm>
-                        <fmm:DatastreamInputParm parmName="QUCOSAv1-XML2JSON" passBy="URL_REF"></fmm:DatastreamInputParm>
+                        <fmm:DatastreamInputParm parmName="METS-MODS-XML2JSON" passBy="URL_REF"></fmm:DatastreamInputParm>
+                        <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
                     <fmm:Method operationName="getMETSDissemination" wsdlMsgName="getMETSDisseminationRequest" wsdlMsgOutput="mets_response">
                         <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
@@ -57,12 +58,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
         <foxml:datastreamVersion ID="DSINPUTSPEC.0" LABEL="Datastream Input Specification" CREATED="2014-05-27T13:13:50.380Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSInputSpec-1.1" SIZE="738">
             <foxml:xmlContent>
                 <fbs:DSInputSpec xmlns:fbs="http://fedora.comm.nsdlib.org/service/bindspec" label="NSDL Exhibit Mapping to the Fedora Local Saxon Service">
-                    <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="QUCOSA-XML">
-                        <fbs:DSInputLabel>XML source</fbs:DSInputLabel>
-                        <fbs:DSMIME>text/xml</fbs:DSMIME>
-                        <fbs:DSInputInstruction>XML source to be transformed</fbs:DSInputInstruction>
-                    </fbs:DSInput>
-                    <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="qucosa:XSLT" wsdlMsgPartName="QUCOSAv1-XML2JSON">
+                    <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="qucosa:XSLT" wsdlMsgPartName="METS-MODS-XML2JSON">
                         <fbs:DSInputLabel>XSLT source</fbs:DSInputLabel>
                         <fbs:DSMIME>text/xml</fbs:DSMIME>
                         <fbs:DSInputInstruction>XSLT source for transformation</fbs:DSInputInstruction>
@@ -92,8 +88,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         </xsd:schema>
                     </wsdl:types>
                     <wsdl:message name="getIndexDocumentRequest">
-                        <wsdl:part name="QUCOSA-XML" type="this:URLType"></wsdl:part>
-                        <wsdl:part name="QUCOSAv1-XML2JSON" type="this:URLType"></wsdl:part>
+                        <wsdl:part name="METS-MODS-XML2JSON" type="this:URLType"></wsdl:part>
                         <wsdl:part name="CLEAR_CACHE" type="this:BOOLType"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="getMETSDisseminationRequest">
@@ -123,7 +118,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <wsdl:binding name="FedoraLocal_http" type="this:FedoraLocalPortType">
                         <http:binding verb="GET"></http:binding>
                         <wsdl:operation name="getIndexDocument">
-                            <http:operation location="saxon/SaxonServlet?source=(QUCOSA-XML)&amp;style=(QUCOSAv1-XML2JSON)&amp;clear-stylesheet-cache=(CLEAR_CACHE)"></http:operation>
+                            <http:operation location="saxon/SaxonServlet?source=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;style=(METS-MODS-XML2JSON)&amp;clear-stylesheet-cache=(CLEAR_CACHE)"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>

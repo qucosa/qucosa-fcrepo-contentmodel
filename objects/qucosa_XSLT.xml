@@ -20,175 +20,269 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
             </foxml:xmlContent>
         </foxml:datastreamVersion>
     </foxml:datastream>
-    <foxml:datastream ID="QUCOSAv1-XML2JSON" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-        <foxml:datastreamVersion ID="QUCOSAv1-XML2JSON.0" LABEL="Stylesheet transforming Qucosa v1 XML to JSON" CREATED="2014-05-27T17:15:33.071Z" MIMETYPE="text/xsl" SIZE="5345">
+    <foxml:datastream ID="METS-MODS-XML2JSON" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="METS-MODS-XML2JSON.0" LABEL="Stylesheet transforming Qucosa METS/MODS Dissemination XML to JSON" CREATED="2014-05-27T17:15:33.071Z" MIMETYPE="text/xsl" SIZE="5345">
             <foxml:xmlContent>
-                <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-                    <xsl:output encoding="UTF-8" indent="no" media-type="application/json" method="text" omit-xml-declaration="yes"></xsl:output>
-                    <xsl:strip-space elements="*"></xsl:strip-space>
-                    <xsl:template match="/Opus[version='2.0']">
-                        <xsl:apply-templates select="Opus_Document[1]"/>
-                    </xsl:template>
-                    <xsl:template match="Opus_Document">
-                        <xsl:text>{</xsl:text>
-                        <!-- single value fields -->
-                        <xsl:apply-templates select="CompletedDate"/>
-                        <xsl:apply-templates select="ServerDatePublished"/>
-                        <xsl:apply-templates select="Type"/>
-                        <!-- multiple value fields -->
-                        <xsl:call-template name="TitleMain"/>
-                        <xsl:call-template name="TitleAbstract"/>
-                        <xsl:call-template name="IdentifierUrn"/>
-                        <xsl:call-template name="Note"/>
-                        <xsl:call-template name="PersonAuthor"/>
-                        <xsl:call-template name="PersonSubmitter"/>
-                        <xsl:call-template name="SubjectDdc"/>
-                        <xsl:call-template name="SubjectUncontrolled"/>
-                        <xsl:call-template name="File"/>
-                        <xsl:call-template name="FirstLevelName"/>
-                        <xsl:call-template name="SecondLevelName"/>
-                        <!-- closing, after last comma -->
-                        <xsl:text>"":""</xsl:text>
-                        <xsl:text>}</xsl:text>
-                    </xsl:template>
-                    <xsl:template match="Opus_Document/CompletedDate">
-                        <xsl:call-template name="emit-field">
-                            <xsl:with-param name="key">PUB_DATE</xsl:with-param>
-                            <xsl:with-param name="value" select="concat(Year, '-', Month, '-', Day)"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template match="Opus_Document/ServerDatePublished">
-                        <xsl:if test="not(/Opus/Opus_Document/CompletedDate/Year)">
-                            <xsl:call-template name="emit-field">
-                                <xsl:with-param name="key">PUB_DATE</xsl:with-param>
-                                <xsl:with-param name="value" select="concat(Year, '-', Month, '-', Day)"/>
-                            </xsl:call-template>
-                        </xsl:if>
-                    </xsl:template>
-                    <xsl:template match="Opus_Document/Type">
-                        <xsl:call-template name="emit-field">
-                            <xsl:with-param name="key">PUB_TYPE</xsl:with-param>
-                            <xsl:with-param name="value" select="."/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <!-- Named templates -->
-                    <xsl:template name="TitleMain">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_TITLE</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/TitleMain/Value"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="TitleAbstract">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_ABSTRACT</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/TitleAbstract/Value"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="IdentifierUrn">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_URN</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/IdentifierUrn/Value"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="Note">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_ADM_NOTE</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/Note/Value"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="SubjectDdc">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_TAG_DDC</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/SubjectDdc/Value"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="SubjectUncontrolled">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_TAG</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/SubjectUncontrolled/Value"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="File">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_FILENAME</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/File/PathName"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="FirstLevelName">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_ORIGINATOR</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/Organisation/FirstLevelName"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="SecondLevelName">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_ORIGINATOR_SUB</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="Opus_Document/Organisation/SecondLevelName"/>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <!-- Special handling for Authors -->
-                    <xsl:template name="PersonAuthor">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_AUTHOR</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/PersonAuthor"/>
-                            <xsl:with-param name="call">concat-firstname-lastname</xsl:with-param>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <xsl:template name="PersonSubmitter">
-                        <xsl:call-template name="emit-array-field">
-                            <xsl:with-param name="key">PUB_SUBMITTER</xsl:with-param>
-                            <xsl:with-param name="selectValues" select="//Opus_Document/PersonSubmitter"/>
-                            <xsl:with-param name="call">concat-firstname-lastname</xsl:with-param>
-                        </xsl:call-template>
-                    </xsl:template>
-                    <!-- utility templates -->
-                    <xsl:template name="emit-field">
-                        <xsl:param name="key"/>
-                        <xsl:param name="value"/>
-                        <xsl:text>"</xsl:text>
-                        <xsl:value-of select="$key"/>
-                        <xsl:text>":</xsl:text>
-                        <xsl:call-template name="encode">
-                            <xsl:with-param name="s" select="$value"/>
-                        </xsl:call-template>
-                        <xsl:text>,</xsl:text>
-                    </xsl:template>
-                    <xsl:template name="emit-array-field">
-                        <xsl:param name="key"/>
-                        <xsl:param name="selectValues"/>
-                        <xsl:param name="call"/>
-                        <xsl:text>"</xsl:text>
-                        <xsl:value-of select="$key"/>
-                        <xsl:text>":[</xsl:text>
-                        <xsl:for-each select="$selectValues">
-                            <xsl:choose>
-                                <xsl:when test="$call='concat-firstname-lastname'">
-                                    <xsl:call-template name="encode">
-                                        <xsl:with-param name="s">
-                                            <xsl:value-of select="concat(FirstName,' ', LastName)"/>
-                                        </xsl:with-param>
-                                    </xsl:call-template>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:call-template name="encode">
-                                        <xsl:with-param name="s" select="."/>
-                                    </xsl:call-template>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:if test="position()!=last()">
-                                <xsl:text>,</xsl:text>
-                            </xsl:if>
-                        </xsl:for-each>
-                        <xsl:text>],</xsl:text>
-                    </xsl:template>
-                    <xsl:template name="encode">
-                        <xsl:param name="s"/>
-                        <xsl:text>"</xsl:text>
-                        <xsl:value-of select="translate(normalize-space($s), '&quot;', '\&quot;')"/>
-                        <xsl:text>"</xsl:text>
-                    </xsl:template>
-                    <xsl:template match="text()"/>
-                </xsl:stylesheet>
+                <stylesheet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:mods="http://www.loc.gov/mods/v3"
+            xmlns:mets="http://www.loc.gov/METS/"
+            xmlns:slub="http://slub-dresden.de/"
+            version="1.0"
+            xmlns="http://www.w3.org/1999/XSL/Transform"
+            xsi:schemaLocation="
+            http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd
+            http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version19/mets.v1-9.xsd">
+                    <output method="text" encoding="UTF-8" indent="no" media-type="application/json"/>
+                    <strip-space elements="*"></strip-space>
+                    <!-- control template, match all MODS elements -->
+                    <template match="/mets:mets">
+                        <text>{</text>
+                        <!-- pick the first MODS meta data section -->
+                        <apply-templates select="mets:dmdSec/mets:mdWrap[@MDTYPE='MODS'][1]/mets:xmlData/mods:mods"/>
+                        <text>,</text>
+                        <!-- pick the first SLUB-INFO meta data section -->
+                        <apply-templates
+                select="mets:amdSec/mets:rightsMD/mets:mdWrap[@MIMETYPE='application/vnd.slub-info+xml'][1]/mets:xmlData/slub:info"/>
+                        <text>}</text>
+                    </template>
+                    <template match="mods:mods">
+                        <call-template name="title">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="abstract">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="author">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="language">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="publisher">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="publisher_place">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="distributor">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="distributor_place">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="distribution_date">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="classification">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="tag">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="identifier">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                    </template>
+                    <template match="slub:info">
+                        <call-template name="submitter">
+                            <with-param name="slubElement" select="."/>
+                        </call-template>
+                        <text>,</text>
+                        <call-template name="project">
+                            <with-param name="slubElement" select="."/>
+                        </call-template>
+                    </template>
+                    <template name="title">
+                        <param name="modsElement"/>
+                        <text>"title":[</text>
+                        <for-each select="$modsElement/mods:titleInfo/mods:title">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="abstract">
+                        <param name="modsElement"/>
+                        <text>"abstract":[</text>
+                        <for-each select="$modsElement/mods:abstract[@type='content']">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="author">
+                        <param name="modsElement"/>
+                        <text>"author":[</text>
+                        <for-each select="$modsElement/mods:name[@type='personal' and mods:role/mods:roleTerm='aut']">
+                            <call-template name="quote">
+                                <with-param name="s" select="concat(mods:namePart[@type='given'], ' ', mods:namePart[@type='family'])"/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="language">
+                        <param name="modsElement"/>
+                        <text>"language":[</text>
+                        <for-each select="$modsElement/mods:language/mods:languageTerm">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="publisher">
+                        <param name="modsElement"/>
+                        <text>"publisher":[</text>
+                        <for-each select="$modsElement/mods:originInfo[@eventType='publication']">
+                            <call-template name="quote">
+                                <with-param name="s" select="mods:publisher"/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="publisher_place">
+                        <param name="modsElement"/>
+                        <text>"publisher_place":[</text>
+                        <for-each select="$modsElement/mods:originInfo[@eventType='publication']">
+                            <call-template name="quote">
+                                <with-param name="s" select="mods:place/mods:placeTerm[@type='text']"/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="distributor">
+                        <param name="modsElement"/>
+                        <text>"distributor":[</text>
+                        <for-each select="$modsElement/mods:originInfo[@eventType='distribution']">
+                            <call-template name="quote">
+                                <with-param name="s" select="mods:publisher"/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="distributor_place">
+                        <param name="modsElement"/>
+                        <text>"distributor_place":[</text>
+                        <for-each select="$modsElement/mods:originInfo[@eventType='distribution']">
+                            <call-template name="quote">
+                                <with-param name="s" select="mods:place/mods:placeTerm[@type='text']"/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="distribution_date">
+                        <param name="modsElement"/>
+                        <text>"distribution_date":[</text>
+                        <for-each select="$modsElement/mods:originInfo[@eventType='distribution']">
+                            <call-template name="quote">
+                                <with-param name="s" select="mods:dateIssued[@keyDate='yes']"/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="classification">
+                        <param name="modsElement"/>
+                        <text>"classification":[</text>
+                        <for-each select="$modsElement/mods:classification[@authority!='']">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="tag">
+                        <param name="modsElement"/>
+                        <text>"tag":[</text>
+                        <for-each select="$modsElement/mods:classification[not(@authority)]">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="identifier">
+                        <param name="modsElement"/>
+                        <text>"identifier":[</text>
+                        <for-each select="$modsElement/mods:identifier">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
+                    </template>
+                    <template name="submitter">
+                        <param name="slubElement"/>
+                        <text>"submitter":</text>
+                        <call-template name="quote">
+                            <with-param name="s" select="$slubElement/slub:submitter/slub:name"/>
+                        </call-template>
+                    </template>
+                    <template name="project">
+                        <param name="slubElement"/>
+                        <text>"project":</text>
+                        <call-template name="quote">
+                            <with-param name="s" select="$slubElement/slub:project"/>
+                        </call-template>
+                    </template>
+                    <!-- eat all unmatched text -->
+                    <template match="text()"/>
+                    <!-- Helper templates -->
+                    <template name="quote">
+                        <param name="s"/>
+                        <text>"</text>
+                        <value-of select="translate(normalize-space($s), '&quot;', '\&quot;')"/>
+                        <text>"</text>
+                    </template>
+                </stylesheet>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
     </foxml:datastream>
