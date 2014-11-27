@@ -89,7 +89,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     </wsdl:types>
                     <wsdl:message name="getIndexDocumentRequest">
                         <wsdl:part name="METS-MODS-XML2JSON" type="this:URLType"></wsdl:part>
-                        <wsdl:part name="CLEAR_CACHE" type="this:BOOLType"></wsdl:part>
+                        <wsdl:part name="clear_xslt_cache" type="this:BOOLType"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="getMETSDisseminationRequest">
                         <wsdl:part name="PID" type="this:InputType"></wsdl:part>
@@ -118,7 +118,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <wsdl:binding name="FedoraLocal_http" type="this:FedoraLocalPortType">
                         <http:binding verb="GET"></http:binding>
                         <wsdl:operation name="getIndexDocument">
-                            <http:operation location="saxon/SaxonServlet?source=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;style=(METS-MODS-XML2JSON)&amp;clear-stylesheet-cache=(CLEAR_CACHE)"></http:operation>
+                            <http:operation location="saxon/SaxonServlet?source=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;style=(METS-MODS-XML2JSON)&amp;clear-stylesheet-cache=(clear_xslt_cache)"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>
