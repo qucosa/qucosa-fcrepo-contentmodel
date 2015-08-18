@@ -27,6 +27,8 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
             xmlns:mods="http://www.loc.gov/mods/v3"
             xmlns:mets="http://www.loc.gov/METS/"
             xmlns:slub="http://slub-dresden.de/"
+            xmlns:foaf="http://xmlns.com/foaf/0.1/"
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
             version="1.0"
             xmlns="http://www.w3.org/1999/XSL/Transform"
             xsi:schemaLocation="
@@ -41,7 +43,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <apply-templates select="mets:dmdSec/mets:mdWrap[@MDTYPE='MODS'][1]/mets:xmlData/mods:mods"/>
                         <!-- pick the first SLUB-INFO meta data section -->
                         <apply-templates
-                select="mets:amdSec/mets:rightsMD/mets:mdWrap[@OTHERMDTYPE='SLUBINFO'][1]/mets:xmlData/slub:info"/>
+                            select="mets:amdSec/mets:rightsMD/mets:mdWrap[@OTHERMDTYPE='SLUBINFO'][1]/mets:xmlData/slub:info"/>
                         <text>}</text>
                     </template>
                     <template match="mods:mods">
@@ -263,7 +265,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <param name="slubElement"/>
                         <text>"submitter":</text>
                         <call-template name="quote">
-                            <with-param name="s" select="$slubElement/slub:submitter/slub:name"/>
+                            <with-param name="s" select="$slubElement/slub:submitter/foaf:Person/foaf:name"/>
                         </call-template>
                     </template>
                     <template name="project">
