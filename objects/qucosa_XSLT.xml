@@ -30,7 +30,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
             version="1.0"
             xmlns="http://www.w3.org/1999/XSL/Transform"
             xsi:schemaLocation="
-            http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd
+            http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-6.xsd
             http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version19/mets.v1-9.xsd">
                     <output method="text" encoding="UTF-8" indent="no" media-type="application/json"/>
                     <strip-space elements="*"></strip-space>
