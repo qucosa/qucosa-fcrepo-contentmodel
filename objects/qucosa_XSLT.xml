@@ -39,10 +39,9 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <text>{</text>
                         <!-- pick the first MODS meta data section -->
                         <apply-templates select="mets:dmdSec/mets:mdWrap[@MDTYPE='MODS'][1]/mets:xmlData/mods:mods"/>
-                        <text>,</text>
                         <!-- pick the first SLUB-INFO meta data section -->
                         <apply-templates
-                select="mets:amdSec/mets:rightsMD/mets:mdWrap[@MIMETYPE='application/vnd.slub-info+xml'][1]/mets:xmlData/slub:info"/>
+                select="mets:amdSec/mets:rightsMD/mets:mdWrap[@OTHERMDTYPE='SLUBINFO'][1]/mets:xmlData/slub:info"/>
                         <text>}</text>
                     </template>
                     <template match="mods:mods">
@@ -95,6 +94,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         </call-template>
                     </template>
                     <template match="slub:info">
+                        <text>,</text>
                         <call-template name="submitter">
                             <with-param name="slubElement" select="."/>
                         </call-template>
