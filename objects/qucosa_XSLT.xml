@@ -43,7 +43,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <apply-templates select="mets:dmdSec/mets:mdWrap[@MDTYPE='MODS'][1]/mets:xmlData/mods:mods"/>
                         <!-- pick the first SLUB-INFO meta data section -->
                         <apply-templates
-                            select="mets:amdSec/mets:rightsMD/mets:mdWrap[@OTHERMDTYPE='SLUBINFO'][1]/mets:xmlData/slub:info"/>
+                            select="mets:amdSec/mets:techMD/mets:mdWrap[@OTHERMDTYPE='SLUBINFO'][1]/mets:xmlData/slub:info"/>
                         <text>}</text>
                     </template>
                     <template match="mods:mods">
