@@ -127,7 +127,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </wsdl:output>
                         </wsdl:operation>
                         <wsdl:operation name="getMETSDissemination">
-                            <http:operation location="dissemination/mets?pid=(PID)"></http:operation>
+                            <http:operation location="mets?pid=(PID)"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>
