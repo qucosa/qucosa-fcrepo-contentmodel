@@ -281,7 +281,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <template name="quote">
                         <param name="s"/>
                         <text>"</text>
-                        <value-of select="translate(normalize-space($s), '&quot;', '\&quot;')"/>
+                        <value-of select="translate(normalize-space($s), '&quot;&#92;', '')"/>
                         <text>"</text>
                     </template>
                 </stylesheet>
