@@ -51,6 +51,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             <with-param name="modsElement" select="."/>
                         </call-template>
                         <text>,</text>
+                        <call-template name="issue">
+                            <with-param name="modsElement" select="."/>
+                        </call-template>
+                        <text>,</text>
                         <call-template name="abstract">
                             <with-param name="modsElement" select="."/>
                         </call-template>
@@ -117,6 +121,13 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </choose>
                         </for-each>
                         <text>]</text>
+                    </template>
+                    <template name="issue">
+                        <param name="modsElement"/>
+                        <text>"issue":</text>
+                        <call-template name="quote">
+                            <with-param name="s" select="$modsElement/mods:relatedItem[@type='original']/mods:part[@type='issue']/mods:detail/mods:caption"/>
+                        </call-template>
                     </template>
                     <template name="abstract">
                         <param name="modsElement"/>
