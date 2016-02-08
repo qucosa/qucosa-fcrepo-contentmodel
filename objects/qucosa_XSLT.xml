@@ -108,6 +108,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <call-template name="project">
                             <with-param name="slubElement" select="."/>
                         </call-template>
+                        <text>,</text>
+                        <call-template name="doctype">
+                            <with-param name="slubElement" select="."/>
+                        </call-template>
                     </template>
                     <template name="title">
                         <param name="modsElement"/>
@@ -284,6 +288,13 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <text>"project":</text>
                         <call-template name="quote">
                             <with-param name="s" select="$slubElement/slub:project"/>
+                        </call-template>
+                    </template>
+                    <template name="doctype">
+                        <param name="slubElement"/>
+                        <text>"doctype":</text>
+                        <call-template name="quote">
+                            <with-param name="s" select="$slubElement/slub:documentType"/>
                         </call-template>
                     </template>
                     <!-- eat all unmatched text -->
