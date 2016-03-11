@@ -48,6 +48,11 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
                     <fmm:Method operationName="getMETSDissemination" wsdlMsgName="getMETSDisseminationRequest" wsdlMsgOutput="mets_response">
+                        <fmm:UserInputParm defaultValue="" parmName="supplement" passBy="VALUE" required="false">
+                            <fmm:ValidParmValues>
+                                <fmm:ValidParm value="yes"></fmm:ValidParm>
+                            </fmm:ValidParmValues>
+                        </fmm:UserInputParm>
                         <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
                 </fmm:MethodMap>
@@ -92,6 +97,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <wsdl:part name="clear_xslt_cache" type="this:BOOLType"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="getMETSDisseminationRequest">
+                        <wsdl:part name="supplement" type="xsd:string"></wsdl:part>
                         <wsdl:part name="PID" type="this:InputType"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="json_response">
