@@ -97,7 +97,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <wsdl:part name="clear_xslt_cache" type="this:BOOLType"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="getMETSDisseminationRequest">
-                        <wsdl:part name="supplement" type="xsd:string"></wsdl:part>
+                        <wsdl:part name="supplement" type="this:InputType"></wsdl:part>
                         <wsdl:part name="PID" type="this:InputType"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="json_response">
@@ -133,7 +133,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </wsdl:output>
                         </wsdl:operation>
                         <wsdl:operation name="getMETSDissemination">
-                            <http:operation location="mets?pid=(PID)"></http:operation>
+                            <http:operation location="mets?pid=(PID)&amp;supplement=(supplement)"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>
