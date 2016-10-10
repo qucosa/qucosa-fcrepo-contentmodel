@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<foxml:digitalObject VERSION="1.1" PID="qucosa:SDep"
-xmlns:foxml="info:fedora/fedora-system:def/foxml#"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
+<foxml:digitalObject VERSION="1.1" PID="qucosa:SDep" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
     <foxml:objectProperties>
         <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
         <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Service Deployment for Qucosa Objects"/>
@@ -55,6 +52,9 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         </fmm:UserInputParm>
                         <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
+                    <fmm:Method operationName="getEpicurDissemination" wsdlMsgName="getEpicurDisseminationRequest" wsdlMsgOuput="epicur_response">
+                        <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
+                    </fmm:Method>
                 </fmm:MethodMap>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
@@ -100,10 +100,16 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <wsdl:part name="supplement" type="this:InputType"></wsdl:part>
                         <wsdl:part name="PID" type="this:InputType"></wsdl:part>
                     </wsdl:message>
+                    <wsdl:message name="getEpicurDisseminationRequest">
+                        <wsdl:part name="PID" type="this:InputType"></wsdl:part>
+                    </wsdl:message>
                     <wsdl:message name="json_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="mets_response">
+                        <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
+                    </wsdl:message>
+                    <wsdl:message name="epicur_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
                     <wsdl:portType name="FedoraLocalPortType">
@@ -114,6 +120,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <wsdl:operation name="getMETSDissemination">
                             <wsdl:input message="this:getMETSDisseminationRequest"></wsdl:input>
                             <wsdl:output message="this:mets_response"></wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="getEpicurDissemination">
+                            <wsdl:input message="this:getEpicurDisseminationRequest"></wsdl:input>
+                            <wsdl:output message="this:epicur_response"></wsdl:output>
                         </wsdl:operation>
                     </wsdl:portType>
                     <wsdl:service name="FedoraLocalServices">
@@ -139,6 +149,15 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </wsdl:input>
                             <wsdl:output>
                                 <mime:content type="application/mets+xml"></mime:content>
+                            </wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="getEpicurDissemination">
+                            <http:operation location="epicur?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination"></http:operation>
+                            <wsdl:input>
+                                <http:urlReplacement></http:urlReplacement>
+                            </wsdl:input>
+                            <wsdl:output>
+                                <mime:content type="application/xml"></mime:content>
                             </wsdl:output>
                         </wsdl:operation>
                     </wsdl:binding>
