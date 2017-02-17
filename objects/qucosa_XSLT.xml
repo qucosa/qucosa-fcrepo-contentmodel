@@ -244,7 +244,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <template name="classification">
                         <param name="modsElement"/>
                         <text>"classification":[</text>
-                        <for-each select="$modsElement/mods:classification[@authority!='']">
+                        <for-each select="$modsElement/mods:classification[@authority and @authority!='z']">
                             <call-template name="quote">
                                 <with-param name="s" select="."/>
                             </call-template>
@@ -257,7 +257,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                     <template name="tag">
                         <param name="modsElement"/>
                         <text>"tag":[</text>
-                        <for-each select="$modsElement/mods:classification[not(@authority)]">
+                        <for-each select="$modsElement/mods:classification[not(@authority) or @authority='z']">
                             <call-template name="quote">
                                 <with-param name="s" select="."/>
                             </call-template>
