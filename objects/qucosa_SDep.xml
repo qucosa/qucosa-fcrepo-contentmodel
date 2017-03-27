@@ -55,6 +55,9 @@
                     <fmm:Method operationName="getEpicurDissemination" wsdlMsgName="getEpicurDisseminationRequest" wsdlMsgOuput="epicur_response">
                         <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
+                    <fmm:Method operationName="xMetaDissPlusDissemination" wsdlMsgName="xMetaDissPlusDisseminationRequest" wsdlMsgOuput="xmetadissplus_response">
+                        <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
+                    </fmm:Method>
                 </fmm:MethodMap>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
@@ -103,6 +106,9 @@
                     <wsdl:message name="getEpicurDisseminationRequest">
                         <wsdl:part name="PID" type="this:InputType"></wsdl:part>
                     </wsdl:message>
+                    <wsdl:message name="xMetaDissPlusDisseminationRequest">
+                        <wsdl:part name="PID" type="this:InputType"></wsdl:part>
+                    </wsdl:message>
                     <wsdl:message name="json_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
@@ -110,6 +116,9 @@
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="epicur_response">
+                        <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
+                    </wsdl:message>
+                    <wsdl:message name="xmetadissplus_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
                     <wsdl:portType name="FedoraLocalPortType">
@@ -124,6 +133,10 @@
                         <wsdl:operation name="getEpicurDissemination">
                             <wsdl:input message="this:getEpicurDisseminationRequest"></wsdl:input>
                             <wsdl:output message="this:epicur_response"></wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="xMetaDissPlusDissemination">
+                            <wsdl:input message="this:xMetaDissPlusDisseminationRequest"></wsdl:input>
+                            <wsdl:output message="this:xmetadissplus_response"></wsdl:output>
                         </wsdl:operation>
                     </wsdl:portType>
                     <wsdl:service name="FedoraLocalServices">
@@ -153,6 +166,15 @@
                         </wsdl:operation>
                         <wsdl:operation name="getEpicurDissemination">
                             <http:operation location="epicur?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination"></http:operation>
+                            <wsdl:input>
+                                <http:urlReplacement></http:urlReplacement>
+                            </wsdl:input>
+                            <wsdl:output>
+                                <mime:content type="application/xml"></mime:content>
+                            </wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="xMetaDissPlusDissemination">
+                            <http:operation location="xmetadissplus?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;supplement=yes"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>

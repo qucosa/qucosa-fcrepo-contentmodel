@@ -47,8 +47,8 @@
                             </fmm:ValidParmValues>
                         </fmm:UserInputParm>
                     </fmm:Method>
-                    <fmm:Method operationName="getEpicurDissemination">
-                    </fmm:Method>
+                    <fmm:Method operationName="getEpicurDissemination"/>
+                    <fmm:Method operationName="xMetaDissPlusDissemination"/>
                 </fmm:MethodMap>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
