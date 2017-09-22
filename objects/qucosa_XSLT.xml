@@ -116,6 +116,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <call-template name="doctype">
                             <with-param name="slubElement" select="."/>
                         </call-template>
+                        <text>,</text>
+                        <call-template name="collections">
+                            <with-param name="slubElement" select="."/>
+                        </call-template>
                     </template>
                     <template name="title">
                         <param name="modsElement"/>
@@ -313,6 +317,19 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <call-template name="quote">
                             <with-param name="s" select="$slubElement/slub:documentType"/>
                         </call-template>
+                    </template>
+                    <template name="collections">
+                        <param name="slubElement"/>
+                        <text>"collections":[</text>
+                        <for-each select="$slubElement/slub:collections/slub:collection">
+                            <call-template name="quote">
+                                <with-param name="s" select="."/>
+                            </call-template>
+                            <choose>
+                                <when test="position() != last()">,</when>
+                            </choose>
+                        </for-each>
+                        <text>]</text>
                     </template>
                     <!-- eat all unmatched text -->
                     <template match="text()"/>
