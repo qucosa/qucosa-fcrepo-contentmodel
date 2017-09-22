@@ -120,6 +120,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                         <call-template name="collections">
                             <with-param name="slubElement" select="."/>
                         </call-template>
+                        <text>,</text>
+                        <call-template name="processNumber">
+                            <with-param name="slubElement" select="."/>
+                        </call-template>
                     </template>
                     <template name="title">
                         <param name="modsElement"/>
@@ -330,6 +334,13 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
                             </choose>
                         </for-each>
                         <text>]</text>
+                    </template>
+                    <template name="processNumber">
+                        <param name="slubElement"/>
+                        <text>"process_number":</text>
+                        <call-template name="quote">
+                            <with-param name="s" select="$slubElement/slub:processNumber"/>
+                        </call-template>
                     </template>
                     <!-- eat all unmatched text -->
                     <template match="text()"/>
