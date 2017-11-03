@@ -145,7 +145,7 @@
                     <template name="abstract">
                         <param name="modsElement"/>
                         <text>"abstract":[</text>
-                        <for-each select="$modsElement/mods:abstract[@type='content']">
+                        <for-each select="$modsElement/mods:abstract[@type='summary']">
                             <call-template name="quote">
                                 <with-param name="s" select="."/>
                             </call-template>
