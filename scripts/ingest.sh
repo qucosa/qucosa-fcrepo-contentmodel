@@ -23,5 +23,5 @@ if [ "$ERRORS" = true ]; then
 fi
 
 curl -v -u"$FEDORA_AUTH" -H'Content-Type:text/xml' \
-    -XPUT -d @$1 "$FEDORA_OBJ_URL?format=info:fedora/fedora-system:FOXML-1.1&ignoreMime=true"
+    -XPOST -d @$1 "$FEDORA_OBJ_URL?format=info:fedora/fedora-system:FOXML-1.1&ignoreMime=true"
 
