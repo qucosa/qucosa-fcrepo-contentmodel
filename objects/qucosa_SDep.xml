@@ -58,6 +58,9 @@
                     <fmm:Method operationName="xMetaDissPlusDissemination" wsdlMsgName="xMetaDissPlusDisseminationRequest" wsdlMsgOuput="xmetadissplus_response">
                         <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
                     </fmm:Method>
+                    <fmm:Method operationName="DCDissemination" wsdlMsgName="DCDisseminationRequest" wsdlMsgOuput="dc_response">
+                        <fmm:DefaultInputParm parmName="PID" defaultValue="$pid" passBy="VALUE" required="true"/>
+                    </fmm:Method>
                 </fmm:MethodMap>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
@@ -109,6 +112,9 @@
                     <wsdl:message name="xMetaDissPlusDisseminationRequest">
                         <wsdl:part name="PID" type="this:InputType"></wsdl:part>
                     </wsdl:message>
+                    <wsdl:message name="DCDisseminationRequest">
+                        <wsdl:part name="PID" type="this:InputType"></wsdl:part>
+                    </wsdl:message>
                     <wsdl:message name="json_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
@@ -119,6 +125,9 @@
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
                     <wsdl:message name="xmetadissplus_response">
+                        <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
+                    </wsdl:message>
+                    <wsdl:message name="dc_response">
                         <wsdl:part name="exhibit" type="xsd:string"></wsdl:part>
                     </wsdl:message>
                     <wsdl:portType name="FedoraLocalPortType">
@@ -137,6 +146,10 @@
                         <wsdl:operation name="xMetaDissPlusDissemination">
                             <wsdl:input message="this:xMetaDissPlusDisseminationRequest"></wsdl:input>
                             <wsdl:output message="this:xmetadissplus_response"></wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="DCDissemination">
+                            <wsdl:input message="this:DCDisseminationRequest"></wsdl:input>
+                            <wsdl:output message="this:dc_response"></wsdl:output>
                         </wsdl:operation>
                     </wsdl:portType>
                     <wsdl:service name="FedoraLocalServices">
@@ -175,6 +188,15 @@
                         </wsdl:operation>
                         <wsdl:operation name="xMetaDissPlusDissemination">
                             <http:operation location="xmetadissplus?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;supplement=yes"></http:operation>
+                            <wsdl:input>
+                                <http:urlReplacement></http:urlReplacement>
+                            </wsdl:input>
+                            <wsdl:output>
+                                <mime:content type="application/xml"></mime:content>
+                            </wsdl:output>
+                        </wsdl:operation>
+                        <wsdl:operation name="DCDissemination">
+                            <http:operation location="dc?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;supplement=yes"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>

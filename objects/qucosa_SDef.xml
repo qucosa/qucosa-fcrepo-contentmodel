@@ -49,6 +49,7 @@
                     </fmm:Method>
                     <fmm:Method operationName="getEpicurDissemination"/>
                     <fmm:Method operationName="xMetaDissPlusDissemination"/>
+                    <fmm:Method operationName="DCDissemination"/>
                 </fmm:MethodMap>
             </foxml:xmlContent>
         </foxml:datastreamVersion>
