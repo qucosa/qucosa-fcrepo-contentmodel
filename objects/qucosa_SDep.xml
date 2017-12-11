@@ -187,7 +187,7 @@
                             </wsdl:output>
                         </wsdl:operation>
                         <wsdl:operation name="xMetaDissPlusDissemination">
-                            <http:operation location="xmetadissplus?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;supplement=yes"></http:operation>
+                            <http:operation location="xmetadissplus?metsurl=http://local.fedora.server/mets?pid=(PID)%26supplement=yes"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>
@@ -196,7 +196,7 @@
                             </wsdl:output>
                         </wsdl:operation>
                         <wsdl:operation name="DCDissemination">
-                            <http:operation location="dc?metsurl=http://local.fedora.server/fedora/objects/(PID)/methods/qucosa:SDef/getMETSDissemination&amp;supplement=yes"></http:operation>
+                            <http:operation location="dc?metsurl=http://local.fedora.server/mets?pid=(PID)%26supplement=yes"></http:operation>
                             <wsdl:input>
                                 <http:urlReplacement></http:urlReplacement>
                             </wsdl:input>
