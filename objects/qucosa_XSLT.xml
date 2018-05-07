@@ -139,7 +139,7 @@
                         <param name="modsElement"/>
                         <text>"issue":</text>
                         <call-template name="quote">
-                            <with-param name="s" select="$modsElement/mods:relatedItem[@type='original']/mods:part[@type='issue']/mods:detail/mods:caption"/>
+                            <with-param name="s" select="$modsElement/mods:part[@type='issue']/mods:detail/mods:caption"/>
                         </call-template>
                     </template>
                     <template name="abstract">
